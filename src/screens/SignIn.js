@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import MyButton from "../components/MyButton";
-import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/useAuth";
+import NavBarHeader from "../components/NavBarHeader/NavBarHeader";
+
 
 
 export default function SignIn() {
-  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -40,44 +40,46 @@ export default function SignIn() {
 
   return (
     <View style={style.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Feather name="chevron-left" size={32} color="#8a8787" />
-      </TouchableOpacity>
-      <View>
-        <Text style={style.title}>Estamos quase lá.</Text>
-        <Text style={style.subtitle}>
-          Faça seu login para começar a utilizar o app.
-        </Text>
-      </View>
-      <View style={{ gap: 16 }}>
-        <View style={style.inputBox}>
-          <Feather name="mail" size={24} color="#8a8787" />
-          <TextInput
-            style={style.input}
-            placeholder="Digite seu email"
-            placeholderTextColor="#8a8787"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+      <NavBarHeader />
+      <View style={style.containerDentro}>
+        <View>
+          <Text style={style.title}>Estamos quase lá.</Text>
+          <Text style={style.subtitle}>
+            Faça seu login para começar a utilizar o app.
+          </Text>
+        </View>
+        <View style={{ gap: 16 }}>
+          <View style={style.inputBox}>
+            <Feather name="mail" size={24} color="#8a8787" />
+            <TextInput
+              style={style.input}
+              placeholder="Digite seu email"
+              placeholderTextColor="#8a8787"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={style.inputBox}>
+            <Feather name="lock" size={24} color="#8a8787" />
+            <TextInput
+              style={style.input}
+              placeholder="Digite sua senha"
+              placeholderTextColor="#8a8787"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+          {error && <Text>{error}</Text>}
+          <MyButton
+            onPress={handleSubmit}
+            text="Login"
+            style={{ width: "100%" }}
+            backgroundColor="#4543DE"
+            color="#FFF"
           />
         </View>
-        <View style={style.inputBox}>
-          <Feather name="lock" size={24} color="#8a8787" />
-          <TextInput
-            style={style.input}
-            placeholder="Digite sua senha"
-            placeholderTextColor="#8a8787"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-        {error && <Text>{error}</Text>}
-        <MyButton
-          onPress={handleSubmit}
-          text="Login"
-          style={{ width: "100%" }}
-        />
       </View>
     </View>
   );
@@ -89,10 +91,13 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: "stretch",
     justifyContent: "space-between",
-    padding: 16,
   },
-
-
+  containerDentro: {
+    flex: 0.8,
+    alignItems: "stretch",
+    justifyContent: "space-between",
+    padding: 16
+  },
   title: {
     fontSize: 54,
     fontWeight: "700",

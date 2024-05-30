@@ -8,15 +8,15 @@ export default function Start() {
   const navigation = useNavigation();
   return (
     <View style={style.container}>
-      <StatusBar backgroundColor="#1b1b1f" barStyle="light-content" />
+      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
       <Image source={Logo} style={style.image} />
       <View style={{alignItems: "center"}}>
         <Text style={style.title}>Seja Bem-Vindo</Text>
         <Text style={style.subtitle}>O que você deseja fazer?</Text>
       </View>
       <View style={style.texts}>
-        <MyButton text="Login" onPress={() => navigation.navigate("SignIn")} style={{flex: 1}}/>
-        <MyButton text="Cadastrar" onPress={() => navigation.navigate("SignUp")} style={{flex: 1}}/>
+        <MyButton text="Login" onPress={() => navigation.navigate("SignIn")} style={{flex: 1}} backgroundColor="#FFF" color="#000"/>
+        <MyButton text="Cadastrar" onPress={() => navigation.navigate("SignUp")} style={{flex: 1}} backgroundColor="#FFF" color="#000"/>
       </View>
     </View>
   );
@@ -27,7 +27,7 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-evenly",
-    backgroundColor: "#1B1B1F",
+    backgroundColor: "#4543DE",
     padding: 16,
   },
   image: {
@@ -43,7 +43,7 @@ const style = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "900",
-    width: 200,
+    width: "100%",
     color: "#F4F5F6",
     textAlign: "center",
   },

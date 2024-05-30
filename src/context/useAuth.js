@@ -19,8 +19,8 @@ import React, {
     useEffect(() => {
       async function loadStorageData() {
         const [token, user] = await AsyncStorage.multiGet([
-          "@SenaiX:token",
-          "@SenaiX:user",
+          "@tecnologia:token",
+          "@tecnologia:user",
         ]);
   
   
@@ -41,8 +41,8 @@ import React, {
   
   
       await AsyncStorage.multiSet([
-        ["@SenaiX:token", token],
-        ["@SenaiX:user", JSON.stringify(user)],
+        ["@tecnologia:token", token],
+        ["@tecnologia:user", JSON.stringify(user)],
       ]);
   
   
@@ -52,13 +52,13 @@ import React, {
   
   
     const signOut = useCallback(async () => {
-      await AsyncStorage.multiRemove(["@SenaiX:token", "@SenaiX:user"]);
+      await AsyncStorage.multiRemove(["@tecnologia:token", "@tecnologia:user"]);
       setData({});
     }, []);
   
     const updateUser = useCallback((updatedUser) => {
       setData((currentData) => ({ ...currentData, user: updatedUser})); 
-      AsyncStorage.setItem("@SenaiX:user", Json.stringify(updateUser));
+      AsyncStorage.setItem("@tecnologia:user", Json.stringify(updateUser));
     }, []);
   
     return (

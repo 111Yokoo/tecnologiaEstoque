@@ -1,26 +1,56 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home";
+import AddProduto from "../screens/AddProduto";
 import Profile from "../screens/Profile";
+import Categorias from "../screens/Categorias";
+import AddCategoria from "../screens/AddCategoria";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+
+function ProductStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="AddProduto" component={AddProduto} />
+    </Stack.Navigator>
+  )
+}
+
+function CategoriaStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Categorias" component={Categorias} />
+      <Stack.Screen name="AddCategoria" component={AddCategoria} />
+    </Stack.Navigator>
+  )
+}
+
 
 export default function AppRoutes() {
+
+
   return (
+
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "#DC1637",
+        tabBarActiveTintColor: "#4543DE",
         tabBarInactiveTintColor: "#AEAEB3",
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="ProductStack"
+        component={ProductStack}
         options={{
-          title: "Home",
+          title: "ProductStack",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="home-outline"
@@ -31,30 +61,12 @@ export default function AppRoutes() {
         }}
       />
       <Tab.Screen
-        name="cars"
-        component={Home}
+        name="CategoriaStack"
+        component={CategoriaStack}
         options={{
-          title: "cars",
+          title: "CategoriaStack",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="car-outline"
-              size={40}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="calendar"
-        component={Home}
-        options={{
-          title: "cars",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="calendar-outline"
-              size={40}
-              color={color}
-            />
+            <MaterialCommunityIcons name="format-list-bulleted-square" size={40} color={color} />
           ),
         }}
       />

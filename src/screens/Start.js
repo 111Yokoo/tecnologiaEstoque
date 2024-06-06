@@ -31,8 +31,8 @@ const style = StyleSheet.create({
     padding: 16,
   },
   image: {
-    height: 80,
-    height: 50,
+    height: 208,
+    width: 204
   },
   texts: {
     flexDirection: "row",

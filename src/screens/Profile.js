@@ -50,7 +50,6 @@ export default function Profile() {
       setError("Não foi possivel se comunicar com o servidor. ");
     }
   }}
-
   async function pickImage() {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -98,8 +97,6 @@ export default function Profile() {
       console.error("No assets found in pickerResult");
     }
   }
-
-
   async function uploadPhoto(localUri) {
     let filename = localUri.split("/").pop();
     let match = /\.(\w+)$/.exec(filename);
@@ -135,8 +132,6 @@ export default function Profile() {
       }
     }
   }
-
-
   useEffect(()=>{
     const fetchUserProfile = async () =>{
       try {
@@ -151,12 +146,9 @@ export default function Profile() {
     };
     fetchUserProfile();
   },[])
-
-
-  
   return (
     <ScrollView contentContainerStyle={style.container}>
-      <View style={{ backgroundColor: "#1B1B1F", alignItems: "center" }}>
+      <View style={{ alignItems: "center" }}>
         <View style={style.header}>
           <TouchableOpacity onPress={() => setEditable(true)}>
             <MaterialCommunityIcons name="pencil" size={28} color="#fff" />
@@ -246,8 +238,8 @@ export default function Profile() {
         </View>
         {editable && 
             <View style={{ gap: 8, marginTop: 16, flexDirection: "row" }}>
-              <MyButton onPress={() => setEditable(false)} style={{ flex: 1 }} text="Cancelar"  />
-              <MyButton onPress={() => handleSubmit()} style={{ flex: 1 }} text="Salvar alterações" />
+              <MyButton color="#fff" backgroundColor="#4543DE" onPress={() => setEditable(false)} style={{ flex: 1 }} text="Cancelar"  />
+              <MyButton color="#fff" backgroundColor="#4543DE" onPress={() => handleSubmit()} style={{ flex: 1 }} text="Salvar alterações" />
             </View>
         }
       </View>
@@ -260,10 +252,10 @@ const style = StyleSheet.create({
     alignItems: "flex-start",
   },
   header: {
-    backgroundColor: "#1B1B1F",
+    backgroundColor: "#4543DE",
     width: "100%",
     padding: 12,
-    height: 100,
+    height: 90,
     gap: 8,
     flexDirection: "row",
     alignItems: "center",
@@ -280,7 +272,7 @@ const style = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     borderWidth: 6,
-    borderColor: "#DC1637",
+    borderColor: "#4543DE",
   },
   username: {
     alignSelf: "center",
@@ -295,7 +287,7 @@ const style = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#DC1637",
+    backgroundColor: "#4543DE",
     padding: 8,
     borderRadius: 100,
   },
@@ -305,7 +297,7 @@ const style = StyleSheet.create({
     gap: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#8a8787",
+    borderColor: "#4543DE",
     borderRadius: 4,
     width: "100%",
   },

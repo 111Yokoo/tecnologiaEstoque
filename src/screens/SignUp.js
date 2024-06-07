@@ -5,7 +5,6 @@ import {
   View,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   Alert,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -43,6 +42,7 @@ export default function SignUp() {
   }
   return (
     <View style={style.container}>
+      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
       <NavBarHeader />
       <View style={style.containerDentro}>
         <View>

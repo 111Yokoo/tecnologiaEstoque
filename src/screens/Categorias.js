@@ -1,38 +1,53 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from "react";
-import Logo from "../assets/logo.png";
-import CategoriasItem from "../components/CategoriaItem";
-import { api } from "../services/api";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Logo from '../assets/logo.png';
+import CategoriasItem from '../components/CategoriaItem';
+import { api } from '../services/api';
 
 export default function Home() {
     const navigation = useNavigation();
     const [categorias, setCategorias] = useState([]);
+
     useEffect(() => {
-        async function fetchCategories(){
-            const response = await api.get('categories')
-            setCategorias(response.data)
-        }
-        fetchCategories()
+        fetchCategories();
     }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchCategories(); 
+        }, [])
+    );
+
+    async function fetchCategories() {
+        try {
+            const response = await api.get('categories');
+            setCategorias(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+        }
+    }
+
     return (
         <ScrollView>
+            <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
             <View style={style.cabecalho}>
                 <Image source={Logo} style={style.image} />
             </View>
             <View style={style.addProduct}>
-                <TouchableOpacity onPress={() => navigation.navigate("AddCategoria")}>
-                    <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicionar categoria +</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('AddCategoria')}>
+                    <Text style={{ fontSize: 18, fontWeight: '600' }}>Adicionar categoria +</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{marginHorizontal: 25, gap: 10}}>
+            <View style={{ marginHorizontal: 25, gap: 10 }}>
                 {categorias.map((categoria, index) => (
-                    <CategoriasItem data={categoria} key={index}/>
+                    <CategoriasItem data={categoria} key={index} updateCategories={() => fetchCategories()}/>
                 ))}
             </View>
         </ScrollView>
-    )
+    );
 }
+
 
 const style = StyleSheet.create({
     cabecalho: {

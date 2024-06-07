@@ -5,6 +5,8 @@ import AddProduto from "../screens/AddProduto";
 import Profile from "../screens/Profile";
 import Categorias from "../screens/Categorias";
 import AddCategoria from "../screens/AddCategoria";
+import EditCategorias from "../screens/EditCategorias";
+import EditProduto from "../screens/EditProduto";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -19,6 +21,7 @@ function ProductStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AddProduto" component={AddProduto} />
+      <Stack.Screen name="EditProduto" component={EditProduto} />
     </Stack.Navigator>
   )
 }
@@ -28,6 +31,7 @@ function CategoriaStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Categorias" component={Categorias} />
       <Stack.Screen name="AddCategoria" component={AddCategoria} />
+      <Stack.Screen name="EditCategorias" component={EditCategorias} />
     </Stack.Navigator>
   )
 }
@@ -42,8 +46,10 @@ export default function AppRoutes() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "#4543DE",
-        tabBarInactiveTintColor: "#AEAEB3",
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#000",
+        tabBarInactiveBackgroundColor: "#4543DE",
+        tabBarActiveBackgroundColor: "#4543DE"
       }}
     >
       <Tab.Screen

@@ -1,13 +1,14 @@
-import { View, Text, StyleSheet, TextInput, Alert, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Alert, StatusBar } from "react-native";
 import NavBarHeader from "../components/NavBarHeader/NavBarHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api } from '../services/api'
 import MyButton from "../components/MyButton";
 import {
     MaterialCommunityIcons,
   } from "@expo/vector-icons";
 
-export default function AddCategoria() {
+const EditCategorias = ({ route }) => {
+    const { id } = route.params;
     const [categoria, setCategoria] = useState("");
     const [error, setError] = useState("");
     async function handleSubmit() {
@@ -17,10 +18,10 @@ export default function AddCategoria() {
             return;
         }
         try {
-            await api.post("categories", {
+            await api.patch(`categories/${id}`, {
                 name: categoria,
             });
-            Alert.alert("Sucesso", "Categoria criada com sucesso!");
+                Alert.alert("Sucesso", "Categoria atualizada com sucesso!");
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.message);
@@ -34,7 +35,7 @@ export default function AddCategoria() {
             <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
             <NavBarHeader />
             <View style={{ justifyContent: "center", alignItems: "center", padding: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicione sua categoria</Text>
+                <Text style={{ fontSize: 18, fontWeight: 600 }}>Renomeie sua categoria</Text>
             </View>
             <View style={{ justifyContent: "space-between", height: "75%", padding: 20 }}>
                 <View>
@@ -52,7 +53,7 @@ export default function AddCategoria() {
                 </View>
                 <MyButton
                     onPress={() => handleSubmit()}
-                    text="Adicionar categoria"
+                    text="Salvar categoria"
                     style={{ width: "100%" }}
                     backgroundColor="#4543DE"
                     color="#FFF"
@@ -62,6 +63,7 @@ export default function AddCategoria() {
         </View>
     )
 }
+export default EditCategorias;
 
 
 const style = StyleSheet.create({

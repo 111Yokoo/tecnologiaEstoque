@@ -8,6 +8,7 @@ import {
   Image,
   TextInput,
   Alert,
+  StatusBar
 } from "react-native";
 import { useAuth } from "../context/useAuth";
 import {
@@ -148,6 +149,7 @@ export default function Profile() {
   },[])
   return (
     <ScrollView contentContainerStyle={style.container}>
+      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
       <View style={{ alignItems: "center" }}>
         <View style={style.header}>
           <TouchableOpacity onPress={() => setEditable(true)}>

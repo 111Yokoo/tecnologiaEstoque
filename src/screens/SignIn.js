@@ -4,7 +4,7 @@ import {
   TextInput,
   View,
   StyleSheet,
-  TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import MyButton from "../components/MyButton";
@@ -40,6 +40,7 @@ export default function SignIn() {
 
   return (
     <View style={style.container}>
+      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
       <NavBarHeader />
       <View style={style.containerDentro}>
         <View>

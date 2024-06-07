@@ -1,25 +1,42 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput } from "react-native";
-import { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, StatusBar, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import Logo from "../assets/logo.png";
+import { api } from '../services/api'
+import ProdutoItem from "../components/ProdutoItem"
 
 export default function Home() {
     const navigation = useNavigation();
     const [produtos, setProdutos] = useState([]);
     const [query, setQuery] = useState("");
     useEffect(() => {
-        fetch("http://10.0.2.2:3000/previsoes")
-          .then((response) => response.json())
-          .then((data) => setCidades(data));
-      }, []);
+      fetchProdutos();
+  }, []);
+
+  useFocusEffect(
+      React.useCallback(() => {
+        fetchProdutos(); 
+      }, [])
+  );
+
+  async function fetchProdutos() {
+      try {
+          const response = await api.get('products');
+          setProdutos(response.data);
+          console.log(response.data);
+      } catch (error) {
+          console.error('Erro ao buscar categorias:', error);
+      }
+  }
 
     const filteredProdutos = query ?
     produtos.filter((item) => item.produtos.toLowerCase().includes(query.toLowerCase()))
     : produtos;
 
     return (
-        <View style={{ justifyContent: "center", alignItems: "center", }}>
+        <ScrollView>
+          <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
             <View style={style.cabecalho}>
                 <Image source={Logo} style={style.image}/>
                 <View style={style.inputBox}>
@@ -39,14 +56,13 @@ export default function Home() {
               </TouchableOpacity>
             </View>
             <View>
-            {filteredProdutos.map((produto, index) => (
-              <ProdutoItem cidade={produto} key={index}/>
+            {produtos.map((produtos, index) => (
+              <ProdutoItem data={produtos} key={index}/>
             ))}
             </View>
-        </View>
+        </ScrollView>
     )
 }
-
 const style = StyleSheet.create({
     cabecalho: {
       alignItems: "center",
@@ -76,6 +92,8 @@ const style = StyleSheet.create({
     },
     addProduct: {
       padding: 10,
+      justifyContent: "center", 
+      alignItems: "center",
     },
   });
   

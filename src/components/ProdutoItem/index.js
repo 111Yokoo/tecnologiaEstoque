@@ -7,17 +7,9 @@ import {
   import { useNavigation } from "@react-navigation/native";
   import { api } from '../../services/api';
 
-export default function CategoriaItem({data, updateCategories}) {
+export default function CategoriaItem({data}) {
   const navigation = useNavigation();
-  const deleteItem = async () => {
-    try {
-        await api.delete(`categories/${data.id}`);
-        Alert.alert("Sucesso!", "Categoria excluída com sucesso!");
-        updateCategories();
-    } catch (error) {
-        console.error('Erro ao deletar categoria:', error);
-    }
-};
+
   return (
     <View style={styles.itemCategoria}>
         <Text style={{fontWeight: "500", fontSize: 18}}>{data.name}</Text>

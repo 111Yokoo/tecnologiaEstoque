@@ -67,7 +67,7 @@ export default function AddProduto() {
                         <MaterialCommunityIcons name="pencil" size={28} color="#000" />
                         <TextInput
                             style={style.input}
-                            placeholder="Nome da produto"
+                            placeholder="Nome do produto"
                             placeholderTextColor="#8a8787"
                             value={produtoNome}
                             onChangeText={(text) => setProdutoNome(text)}

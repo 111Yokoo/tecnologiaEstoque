@@ -16,6 +16,10 @@ export default function AddCategoria() {
             setError("Por favor, preencha o campo nome!");
             return;
         }
+        if(produtoCategoria == []){
+            setError("Por favor, preencha o campo categoria!");
+            return;
+        }
         try {
             await api.post("categories", {
                 name: categoria,

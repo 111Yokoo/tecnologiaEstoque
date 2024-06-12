@@ -9,7 +9,8 @@ import {
     Fontisto
   } from "@expo/vector-icons";
 
-export default function AddProduto() {
+  const EditProdutos = ({ route }) => {
+    const { id } = route.params;
     const [produtoNome, setProdutoNome] = useState("");
     const [produtoCategoria, setProdutoCategoria] = useState("");
     const [produtoQuantidade, setProdutoQuantidade] = useState("");
@@ -19,6 +20,7 @@ export default function AddProduto() {
 
     useEffect(() => {
         fetchCategories();
+        fetchProdutos();
     }, []);
 
     async function fetchCategories() {
@@ -29,20 +31,34 @@ export default function AddProduto() {
             console.error('Erro ao buscar categorias:', error);
         }
     }
+    async function fetchProdutos() {
+        try {
+            const response = await api.get(`products/${id}`);
+            setProdutoNome(response.data.name);
+            setProdutoQuantidade(String(response.data.amount));
+            setProdutoPreco(String(response.data.value));
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+        }
+    }
     async function handleSubmit() {
         setError("");
         if (!produtoNome.trim() || !produtoQuantidade.trim() || !produtoPreco.trim()) {
             setError("Por favor, preencha todos os campos!");
             return;
         }
+        if(produtoCategoria == []){
+            setError("Por favor, preencha o campo categoria!");
+            return;
+        }
         try {
-            await api.post("products", {
+            await api.patch(`products/${id}`, {
                 name: produtoNome,
                 amount: Number(produtoQuantidade),
                 value: Number(produtoPreco),
                 categoryId: Number(produtoCategoria)
             });
-            Alert.alert("Sucesso", "Produto criado com sucesso!");
+            Alert.alert("Sucesso", "Produto atualizado com sucesso!");
             setProdutoNome("");
             setProdutoQuantidade("");
             setProdutoPreco("");
@@ -59,7 +75,7 @@ export default function AddProduto() {
             <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
             <NavBarHeader />
             <View style={{ justifyContent: "center", alignItems: "center", padding: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicione seu produto</Text>
+                <Text style={{ fontSize: 18, fontWeight: 600 }}>Edite seu produto</Text>
             </View>
             <View style={{ justifyContent: "space-between", height: "75%", padding: 20 }}>
                 <View style={{gap: 15}}>
@@ -67,7 +83,7 @@ export default function AddProduto() {
                         <MaterialCommunityIcons name="pencil" size={28} color="#000" />
                         <TextInput
                             style={style.input}
-                            placeholder="Nome da produto"
+                            placeholder="Nome do produto"
                             placeholderTextColor="#8a8787"
                             value={produtoNome}
                             onChangeText={(text) => setProdutoNome(text)}
@@ -116,7 +132,7 @@ export default function AddProduto() {
         </View>
     )
 }
-
+export default EditProdutos;
 
 const style = StyleSheet.create({
     cabecalho: {

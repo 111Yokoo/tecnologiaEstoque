@@ -4,14 +4,18 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import Logo from "../assets/logo.png";
 import { api } from '../services/api'
-import ProdutoItem from "../components/ProdutoItem"
+import ProdutoItem from "../components/ProdutoItem";
+import { Picker } from '@react-native-picker/picker';
 
 export default function Home() {
     const navigation = useNavigation();
     const [produtos, setProdutos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
     const [query, setQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
     useEffect(() => {
       fetchProdutos();
+      fetchCategorias();
   }, []);
 
   useFocusEffect(
@@ -24,15 +28,24 @@ export default function Home() {
       try {
           const response = await api.get('products');
           setProdutos(response.data);
-          console.log(response.data);
       } catch (error) {
-          console.error('Erro ao buscar categorias:', error);
+          console.error('Erro ao buscar produtos:', error);
       }
   }
+  async function fetchCategorias() {
+    try {
+        const response = await api.get('categories');
+        setCategorias(response.data);
+    } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+    }
+}
 
-    const filteredProdutos = query ?
-    produtos.filter((item) => item.produtos.toLowerCase().includes(query.toLowerCase()))
-    : produtos;
+  const filteredProdutos = produtos.filter((item) => {
+    const matchesQuery = item.name.toLowerCase().includes(query.toLowerCase());
+    const matchesCategory = selectedCategory ? item.categoryId === selectedCategory : true;
+    return matchesQuery && matchesCategory;
+});
 
     return (
         <ScrollView>
@@ -49,15 +62,25 @@ export default function Home() {
                       onChangeText={(text) => setQuery(text)}
                     />
                 </View>
+                <Picker
+                    selectedValue={selectedCategory}
+                    style={style.inputBox}
+                    onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                >
+                    <Picker.Item label="Todas as categorias" value="" />
+                    {categorias.map((categoria) => (
+                        <Picker.Item key={categoria.id} label={categoria.name} value={categoria.id} />
+                    ))}
+                </Picker>
             </View>
             <View style={style.addProduct}>
               <TouchableOpacity onPress={() => navigation.navigate("AddProduto")}>
                 <Text style={{ fontSize: 18, fontWeight: 600}}>Adicionar produto +</Text>
               </TouchableOpacity>
             </View>
-            <View>
-            {produtos.map((produtos, index) => (
-              <ProdutoItem data={produtos} key={index}/>
+            <View style={{padding: 10, gap: 10}}>
+            {filteredProdutos.map((produtos, index) => (
+              <ProdutoItem data={produtos} key={index} updateProducts={() => fetchProdutos()}/>
             ))}
             </View>
         </ScrollView>
@@ -70,7 +93,7 @@ const style = StyleSheet.create({
       backgroundColor: "#4543DE",
       padding: 16,
       width: "100%",
-      height: 250,
+      height: 290,
       borderBottomEndRadius: 15,
       borderBottomStartRadius: 15
     }, 
@@ -95,5 +118,13 @@ const style = StyleSheet.create({
       justifyContent: "center", 
       alignItems: "center",
     },
+    picker: {
+      height: 50,
+      width: '100%',
+      color: '#000',
+      backgroundColor: '#D9D9D9',
+      borderRadius: 4,
+      marginTop: 10,
+  },
   });
   

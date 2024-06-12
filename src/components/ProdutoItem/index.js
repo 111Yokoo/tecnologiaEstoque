@@ -40,9 +40,9 @@ export default function ProdutoItem({data, updateProducts}) {
   return (
     <View style={styles.itemCategoria}>
         <View>
-          <Text style={{fontWeight: "500", fontSize: 18}}>{data.name}</Text>
+          <Text style={{fontWeight: "800", fontSize: 22}}>{data.name}</Text>
           <Text style={{fontWeight: "500", fontSize: 18}}>Quantidade: {data.amount}</Text>
-          <Text style={{fontWeight: "500", fontSize: 18}}>Valor: {data.value}</Text>
+          <Text style={{fontWeight: "500", fontSize: 18}}>Valor: R$ {data.value}</Text>
           <Text style={{fontWeight: "500", fontSize: 18}}>Categoria: {categorias}</Text>
         </View>
         <View style={styles.buttonsCategoria}>

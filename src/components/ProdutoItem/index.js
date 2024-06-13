@@ -1,14 +1,12 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import {
-    Feather,
     MaterialCommunityIcons,
-    MaterialIcons,
   } from "@expo/vector-icons";
   import { useNavigation } from "@react-navigation/native";
   import { api } from '../../services/api';
 
-export default function ProdutoItem({data, updateProducts}) {
+export default function ProdutoItem({data, updateProducts, color}) {
   const navigation = useNavigation();
   const [categorias, setCategorias] = useState("");
 
@@ -40,17 +38,17 @@ export default function ProdutoItem({data, updateProducts}) {
   return (
     <View style={styles.itemCategoria}>
         <View>
-          <Text style={{fontWeight: "800", fontSize: 22}}>{data.name}</Text>
-          <Text style={{fontWeight: "500", fontSize: 18}}>Quantidade: {data.amount}</Text>
-          <Text style={{fontWeight: "500", fontSize: 18}}>Valor: R$ {data.value}</Text>
-          <Text style={{fontWeight: "500", fontSize: 18}}>Categoria: {categorias}</Text>
+          <Text style={{fontWeight: "800", fontSize: 22, color: color}}>{data.name}</Text>
+          <Text style={{fontWeight: "500", fontSize: 18, color: color}}>Quantidade: {data.amount}</Text>
+          <Text style={{fontWeight: "500", fontSize: 18, color: color}}>Valor: R$ {data.value}</Text>
+          <Text style={{fontWeight: "500", fontSize: 18, color: color}}>Categoria: {categorias}</Text>
         </View>
         <View style={styles.buttonsCategoria}>
             <TouchableOpacity onPress={() => navigation.navigate("EditProduto", { id: data.id })}>
-                <MaterialCommunityIcons name="pencil" size={28} color="#000" />
+                <MaterialCommunityIcons name="pencil" size={28} color={color} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => deleteItem()}>
-                <MaterialCommunityIcons name="trash-can" size={28} color="#000" />
+                <MaterialCommunityIcons name="trash-can" size={28} color={color} />
             </TouchableOpacity>
         </View>
     </View>

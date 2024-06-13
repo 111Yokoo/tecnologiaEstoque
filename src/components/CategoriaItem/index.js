@@ -7,7 +7,7 @@ import {
   import { useNavigation } from "@react-navigation/native";
   import { api } from '../../services/api';
 
-export default function CategoriaItem({data, updateCategories}) {
+export default function CategoriaItem({data, updateCategories, color}) {
   const navigation = useNavigation();
   const deleteItem = async () => {
     try {
@@ -20,13 +20,13 @@ export default function CategoriaItem({data, updateCategories}) {
 };
   return (
     <View style={styles.itemCategoria}>
-        <Text style={{fontWeight: "500", fontSize: 18}}>{data.name}</Text>
+        <Text style={{fontWeight: "500", fontSize: 18, color: color}}>{data.name}</Text>
         <View style={styles.buttonsCategoria}>
             <TouchableOpacity onPress={() => navigation.navigate("EditCategorias", { id: data.id })}>
-                <MaterialCommunityIcons name="pencil" size={28} color="#000" />
+                <MaterialCommunityIcons name="pencil" size={28} color={color} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => deleteItem()}>
-                <MaterialCommunityIcons name="trash-can" size={28} color="#000" />
+                <MaterialCommunityIcons name="trash-can" size={28} color={color} />
             </TouchableOpacity>
         </View>
     </View>

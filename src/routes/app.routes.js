@@ -9,6 +9,7 @@ import EditCategorias from "../screens/EditCategorias";
 import EditProduto from "../screens/EditProduto";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useThemeContext } from "../context/ThemeContext";
 
 
 
@@ -17,9 +18,18 @@ const Stack = createNativeStackNavigator();
 
 
 function ProductStack() {
+  const { isDarkTheme, toggleTheme, colors } = useThemeContext();
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home">
+        {(props) => (
+          <Home
+            {...props}
+            toggleTheme={toggleTheme}
+            isDarkTheme={isDarkTheme}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="AddProduto" component={AddProduto} />
       <Stack.Screen name="EditProduto" component={EditProduto} />
     </Stack.Navigator>
@@ -38,8 +48,7 @@ function CategoriaStack() {
 
 
 export default function AppRoutes() {
-
-
+  const { colors } = useThemeContext();
   return (
 
     <Tab.Navigator
@@ -48,8 +57,8 @@ export default function AppRoutes() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#000",
-        tabBarInactiveBackgroundColor: "#4543DE",
-        tabBarActiveBackgroundColor: "#4543DE"
+        tabBarInactiveBackgroundColor: colors.primary,
+        tabBarActiveBackgroundColor: colors.primary
       }}
     >
       <Tab.Screen

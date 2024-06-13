@@ -6,17 +6,21 @@ import MyButton from "../components/MyButton";
 import {
     MaterialCommunityIcons,
   } from "@expo/vector-icons";
+  import createStyles from "../styles/AddCategoriaStyle";
+  import { useThemeContext } from "../context/ThemeContext";
 
 export default function AddCategoria() {
     const [categoria, setCategoria] = useState("");
     const [error, setError] = useState("");
+    const { colors } = useThemeContext();
+    const styles = createStyles(colors);
     async function handleSubmit() {
         setError("");
         if (!categoria.trim()) {
             setError("Por favor, preencha o campo nome!");
             return;
         }
-        if(produtoCategoria == []){
+        if(categoria == ""){
             setError("Por favor, preencha o campo categoria!");
             return;
         }
@@ -34,20 +38,21 @@ export default function AddCategoria() {
         }
     }
     return (
-        <View>
-            <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
-            <NavBarHeader />
+        <View style={styles.background}>
+            <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+            <NavBarHeader backgroundColor={colors.primary}/>
             <View style={{ justifyContent: "center", alignItems: "center", padding: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicione sua categoria</Text>
+                <Text style={styles.texto}>Adicione sua categoria</Text>
             </View>
             <View style={{ justifyContent: "space-between", height: "75%", padding: 20 }}>
                 <View>
-                    <View style={style.inputBox}>
-                        <MaterialCommunityIcons name="pencil" size={28} color="#000" />
+                    <View style={styles.inputBox}>
+                        <MaterialCommunityIcons name="pencil" size={28} color={colors.text} />
                         <TextInput
-                            style={style.input}
+                            style={styles.input}
                             placeholder="Nome da categoria"
-                            placeholderTextColor="#8a8787"
+                            placeholderTextColor={colors.text}
+                            color={colors.text}
                             value={categoria}
                             onChangeText={(text) => setCategoria(text)}
                         />
@@ -58,8 +63,8 @@ export default function AddCategoria() {
                     onPress={() => handleSubmit()}
                     text="Adicionar categoria"
                     style={{ width: "100%" }}
-                    backgroundColor="#4543DE"
-                    color="#FFF"
+                    backgroundColor={colors.primary}
+                    color={colors.text}
                 />
                 
             </View>

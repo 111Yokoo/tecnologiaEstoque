@@ -14,12 +14,14 @@ import { useAuth } from "../context/useAuth";
 import {
   Feather,
   MaterialCommunityIcons,
-  MaterialIcons,
+  MaterialIcons, Entypo
 } from "@expo/vector-icons";
 import MyButton from "../components/MyButton";
 import { api } from "../services/api";
 import UserPhoto from "../assets/user.png";
 import * as ImagePicker from "expo-image-picker";
+import createStyles from "../styles/ProfileStyles";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function Profile() {
   const [error, setError] = useState("");
@@ -29,6 +31,8 @@ export default function Profile() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [editable, setEditable] = useState(false);
   const {updateUser, signOut} = useAuth();
+  const { toggleTheme, colors } = useThemeContext();
+  const styles = createStyles(colors);
 
   async function handleSubmit(){
     setError("");
@@ -148,10 +152,10 @@ export default function Profile() {
     fetchUserProfile();
   },[])
   return (
-    <ScrollView contentContainerStyle={style.container}>
-      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
+    <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
       <View style={{ alignItems: "center" }}>
-        <View style={style.header}>
+        <View style={styles.header}>
           <TouchableOpacity onPress={() => setEditable(true)}>
             <MaterialCommunityIcons name="pencil" size={28} color="#fff" />
           </TouchableOpacity>
@@ -162,18 +166,18 @@ export default function Profile() {
             <MaterialCommunityIcons name="logout" size={28} color="#fff" />
           </TouchableOpacity>
         </View>
-        <View style={style.profileImageContainer}>
+        <View style={styles.profileImageContainer}>
           <Image
           key={photoUrl}
-          style={style.profileImage}
+          style={styles.profileImage}
           source={photoUrl ? {uri: `http://10.0.2.2:3333/${photoUrl}`}:UserPhoto }
           />
-          <TouchableOpacity style={style.cameraButton} onPress={()=> pickImage()} >
+          <TouchableOpacity style={styles.cameraButton} onPress={()=> pickImage()} >
             <MaterialIcons name="camera-alt" size={32} color="white" />
           </TouchableOpacity>
         </View> 
       </View>
-      <Text style={style.username}>{username}</Text>
+      <Text style={styles.username}>{username}</Text>
 
       <View
         style={{
@@ -189,129 +193,68 @@ export default function Profile() {
             width: "100%",
           }}
         >
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: "400",
-            }}
-          >
-            Meus Dados
-          </Text>
-          <View style={style.inputBox}>
-            <Feather name="user" size={24} color="#8a8787" />
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+            <Text
+              style={styles.text}
+            >
+              Meus Dados
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={toggleTheme}>
+                <Text style={styles.buttonText}>
+                    {colors.text === "#FFFFFF" ? <Feather name="sun" size={30} color={colors.text} /> : <Entypo name="moon" size={30} color={colors.text} />}
+                </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputBox}>
+            <Feather name="user" size={24} color={colors.text} />
             <TextInput
               value={username}
               editable={editable}
-              style={style.input}
+              style={styles.input}
               onChangeText={(text) => setUsername(text)}
-              placeholderTextColor="#AEAEB3"
+              placeholderTextColor={colors.text}
+              color={colors.text}
             />
           </View>
-          <View style={style.inputBox}>
-            <Feather name="mail" size={24} color="#8a8787" />
+          <View style={styles.inputBox}>
+            <Feather name="mail" size={24} color={colors.text}  />
             <TextInput
               value={email}
               editable={editable}
-              style={style.input}
+              style={styles.input}
               onChangeText={(text) => setEmail(text)}
-              placeholderTextColor="#AEAEB3"
+              placeholderTextColor={colors.text}
+              color={colors.text}
             />
           </View>
           <View>
             {editable && (
-              <View style={style.inputBox}>
-                <Feather name="lock" size={24} color="#8a8787" />
+              <View style={styles.inputBox}>
+                <Feather name="lock" size={24} color={colors.text}  />
                   <TextInput
-                    style={style.input}
+                    style={styles.input}
                     value={password}
                     editable={editable}
                     onChangeText={(text) => {
                       setPassword(text);
                       }}
-                    placeholderTextColor="#AEAEB3"
+                      placeholderTextColor={colors.text}
+                      color={colors.text}
                     secureTextEntry
                     placeholder="Senha atual ou nova senha"
                   />
               </View>
             )}
-
-            <Text style={style.error}>{error}</Text>
+            <Text style={styles.error}>{error}</Text>
           </View>
         </View>
         {editable && 
             <View style={{ gap: 8, marginTop: 16, flexDirection: "row" }}>
-              <MyButton color="#fff" backgroundColor="#4543DE" onPress={() => setEditable(false)} style={{ flex: 1 }} text="Cancelar"  />
-              <MyButton color="#fff" backgroundColor="#4543DE" onPress={() => handleSubmit()} style={{ flex: 1 }} text="Salvar alterações" />
+              <MyButton color={colors.text} backgroundColor={colors.primary} onPress={() => setEditable(false)} style={{ flex: 1 }} text="Cancelar"  />
+              <MyButton color={colors.text} backgroundColor={colors.primary} onPress={() => handleSubmit()} style={{ flex: 1 }} text="Salvar alterações" />
             </View>
         }
       </View>
     </ScrollView>
   );
 }
-
-const style = StyleSheet.create({
-  container: {
-    alignItems: "flex-start",
-  },
-  header: {
-    backgroundColor: "#4543DE",
-    width: "100%",
-    padding: 12,
-    height: 90,
-    gap: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  profileImageContainer: {
-    alignItems: "center",
-    position: "relative",
-    marginTop: 20,
-    marginBottom: -100,
-  },
-  profileImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 6,
-    borderColor: "#4543DE",
-  },
-  username: {
-    alignSelf: "center",
-    marginTop: 120,
-    width: "60%",
-    textAlign: "center",
-    marginBottom: 8,
-    fontSize: 40,
-    fontWeight: "600",
-  },
-  cameraButton: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "#4543DE",
-    padding: 8,
-    borderRadius: 100,
-  },
-  inputBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "#4543DE",
-    borderRadius: 4,
-    width: "100%",
-  },
-
-  input: {
-    flex: 1,
-    fontSize: 18,
-  },
-  error: {
-    color: "#DC1637",
-    fontWeight: "400",
-    textAlign: "center",
-    marginTop: 8,
-  },
-});

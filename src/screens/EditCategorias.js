@@ -3,6 +3,8 @@ import NavBarHeader from "../components/NavBarHeader/NavBarHeader";
 import { useState, useEffect } from "react";
 import { api } from '../services/api'
 import MyButton from "../components/MyButton";
+import createStyles from "../styles/EditCategoriasStyle";
+import { useThemeContext } from "../context/ThemeContext";
 import {
     MaterialCommunityIcons,
   } from "@expo/vector-icons";
@@ -11,6 +13,8 @@ const EditCategorias = ({ route }) => {
     const { id } = route.params;
     const [categoria, setCategoria] = useState("");
     const [error, setError] = useState("");
+    const { colors } = useThemeContext();
+    const styles = createStyles(colors);
     async function handleSubmit() {
         setError("");
         if (!categoria.trim()) {
@@ -31,20 +35,20 @@ const EditCategorias = ({ route }) => {
         }
     }
     return (
-        <View>
-            <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
-            <NavBarHeader />
+        <View style={styles.background}>
+            <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+            <NavBarHeader backgroundColor={colors.primary}/>
             <View style={{ justifyContent: "center", alignItems: "center", padding: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Renomeie sua categoria</Text>
+                <Text style={styles.texto}>Renomeie sua categoria</Text>
             </View>
             <View style={{ justifyContent: "space-between", height: "75%", padding: 20 }}>
                 <View>
-                    <View style={style.inputBox}>
-                        <MaterialCommunityIcons name="pencil" size={28} color="#000" />
+                    <View style={styles.inputBox}>
+                        <MaterialCommunityIcons name="pencil" size={28} color={colors.text} />
                         <TextInput
-                            style={style.input}
+                            style={styles.input}
                             placeholder="Nome da categoria"
-                            placeholderTextColor="#8a8787"
+                            placeholderTextColor={colors.text}
                             value={categoria}
                             onChangeText={(text) => setCategoria(text)}
                         />
@@ -55,8 +59,8 @@ const EditCategorias = ({ route }) => {
                     onPress={() => handleSubmit()}
                     text="Salvar categoria"
                     style={{ width: "100%" }}
-                    backgroundColor="#4543DE"
-                    color="#FFF"
+                    backgroundColor={colors.primary}
+                    color={colors.text}
                 />
                 
             </View>
@@ -64,36 +68,3 @@ const EditCategorias = ({ route }) => {
     )
 }
 export default EditCategorias;
-
-
-const style = StyleSheet.create({
-    cabecalho: {
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        backgroundColor: "#4543DE",
-        padding: 16,
-        width: "100%",
-        height: 180,
-        borderBottomEndRadius: 15,
-        borderBottomStartRadius: 15
-    },
-    image: {
-        height: 128,
-        width: 124
-    },
-    input: {
-        fontSize: 18,
-    },
-    inputBox: {
-        backgroundColor: "#D9D9D9",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        padding: 16,
-        borderRadius: 4,
-        width: "100%",
-    },
-    addProduct: {
-        padding: 10,
-    },
-});

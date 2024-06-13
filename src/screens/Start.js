@@ -3,53 +3,25 @@ import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from "react
 import { useNavigation } from "@react-navigation/native";
 import Logo from "../assets/logo.png";
 import MyButton from "../components/MyButton";
+import createStyles from "../styles/StartStyles";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function Start() {
   const navigation = useNavigation();
+  const { colors } = useThemeContext();
+  const styles = createStyles(colors);
   return (
-    <View style={style.container}>
-      <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
-      <Image source={Logo} style={style.image} />
+    <View style={styles.container}>
+      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <Image source={Logo} style={styles.image} />
       <View style={{alignItems: "center"}}>
-        <Text style={style.title}>Seja Bem-Vindo</Text>
-        <Text style={style.subtitle}>O que você deseja fazer?</Text>
+        <Text style={styles.title}>Seja Bem-Vindo</Text>
+        <Text style={styles.subtitle}>O que você deseja fazer?</Text>
       </View>
-      <View style={style.texts}>
-        <MyButton text="Login" onPress={() => navigation.navigate("SignIn")} style={{flex: 1}} backgroundColor="#FFF" color="#000"/>
-        <MyButton text="Cadastrar" onPress={() => navigation.navigate("SignUp")} style={{flex: 1}} backgroundColor="#FFF" color="#000"/>
+      <View style={styles.texts}>
+        <MyButton text="Login" onPress={() => navigation.navigate("SignIn")} style={{flex: 1}} backgroundColor={colors.background} color={colors.text}/>
+        <MyButton text="Cadastrar" onPress={() => navigation.navigate("SignUp")} style={{flex: 1}} backgroundColor={colors.background} color={colors.text}/>
       </View>
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    backgroundColor: "#4543DE",
-    padding: 16,
-  },
-  image: {
-    height: 208,
-    width: 204
-  },
-  texts: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    gap: 16,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: "900",
-    width: "100%",
-    color: "#F4F5F6",
-    textAlign: "center",
-  },
-  subtitle: {
-    fontWeight: "400",
-    color: "#AEAEB3",
-    marginTop: 16,
-  },
-});

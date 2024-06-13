@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import Logo from "../../assets/logo.png";
 
-export default function NavBarHeader() {
+export default function NavBarHeader({backgroundColor}) {
     const navigation = useNavigation();
   return (
-    <View style={styles.nav}>
+    <View style={{backgroundColor: backgroundColor, padding: 16, borderBottomRightRadius: 15, borderBottomLeftRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Feather name="chevron-left" size={40} color="#000" />
         </TouchableOpacity>
@@ -14,14 +14,6 @@ export default function NavBarHeader() {
       </View>
   );
 }
-
-const styles = StyleSheet.create({
-    nav:{
-        backgroundColor: "#4543DE", padding: 16, borderBottomRightRadius: 15, borderBottomLeftRadius: 15, display: "flex", flexDirection: "row", justifyContent: "space-between"
-    }
-});
-
-
 const style = StyleSheet.create({
   imageBar: {
     height: 48,

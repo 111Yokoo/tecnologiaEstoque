@@ -8,6 +8,8 @@ import {
     MaterialCommunityIcons,
     Fontisto
   } from "@expo/vector-icons";
+  import createStyles from "../styles/AddProdutosStyle";
+  import { useThemeContext } from "../context/ThemeContext";
 
 export default function AddProduto() {
     const [produtoNome, setProdutoNome] = useState("");
@@ -16,6 +18,8 @@ export default function AddProduto() {
     const [produtoPreco, setProdutoPreco] = useState("");
     const [categorias, setCategorias] = useState([]);
     const [error, setError] = useState("");
+    const { colors } = useThemeContext();
+    const styles = createStyles(colors);
 
     useEffect(() => {
         fetchCategories();
@@ -55,50 +59,53 @@ export default function AddProduto() {
         }
     }
     return (
-        <View>
-            <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
-            <NavBarHeader />
+        <View style={styles.background}>
+            <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+            <NavBarHeader backgroundColor={colors.primary}/>
             <View style={{ justifyContent: "center", alignItems: "center", padding: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicione seu produto</Text>
+                <Text style={styles.texto}>Adicione seu produto</Text>
             </View>
             <View style={{ justifyContent: "space-between", height: "75%", padding: 20 }}>
                 <View style={{gap: 15}}>
-                    <View style={style.inputBox}>
-                        <MaterialCommunityIcons name="pencil" size={28} color="#000" />
+                    <View style={styles.inputBox}>
+                        <MaterialCommunityIcons name="pencil" size={28} color={colors.text} />
                         <TextInput
-                            style={style.input}
+                            style={styles.input}
                             placeholder="Nome do produto"
-                            placeholderTextColor="#8a8787"
+                            placeholderTextColor={colors.text}
                             value={produtoNome}
+                            color={colors.text}
                             onChangeText={(text) => setProdutoNome(text)}
                         />
                     </View>
-                    <View style={style.inputBox}>
-                    <MaterialCommunityIcons name="toolbox" size={28} color="#000" />
+                    <View style={styles.inputBox}>
+                    <MaterialCommunityIcons name="toolbox" size={28} color={colors.text} />
                         <TextInput
-                            style={style.input}
+                            style={styles.input}
                             placeholder="Quantidade"
-                            placeholderTextColor="#8a8787"
+                            placeholderTextColor={colors.text}
                             value={produtoQuantidade}
+                            color={colors.text}
                             onChangeText={(text) => setProdutoQuantidade(text)}
                         />
                     </View>
-                    <View style={style.inputBox}>
-                    <Fontisto name="dollar" size={28} color="#000" />
+                    <View style={styles.inputBox}>
+                    <Fontisto name="dollar" size={28} color={colors.text} />
                         <TextInput
-                            style={style.input}
+                            style={styles.input}
                             placeholder="Preço"
-                            placeholderTextColor="#8a8787"
+                            placeholderTextColor={colors.text}
                             value={produtoPreco}
+                            color={colors.text}
                             onChangeText={(text) => setProdutoPreco(text)}
                         />
                     </View>
-                    <View style={style.inputPicker}>
-                        <MaterialCommunityIcons name="shopping-outline" size={28} color="#000" />
-                        <Picker style={style.picker} selectedValue={produtoCategoria} onValueChange={(itemValue) => setProdutoCategoria(itemValue)} >
-                            <Picker.Item label="Selecione uma categoria" value=""/>
+                    <View style={styles.inputPicker}>
+                        <MaterialCommunityIcons name="shopping-outline" size={28} color={colors.text} />
+                        <Picker style={styles.picker} selectedValue={produtoCategoria} onValueChange={(itemValue) => setProdutoCategoria(itemValue)} >
+                            <Picker.Item label="Selecione uma categoria" value="" color={colors.text}/>
                             {categorias.map((categoria, index) => (
-                                <Picker.Item key={index} label={categoria.name} value={categoria.id}/>
+                                <Picker.Item key={index} label={categoria.name} color={colors.primary} value={categoria.id}/>
                             ))}
                         </Picker>
                     </View>
@@ -108,8 +115,8 @@ export default function AddProduto() {
                     onPress={() => handleSubmit()}
                     text="Adicionar produto"
                     style={{ width: "100%" }}
-                    backgroundColor="#4543DE"
-                    color="#FFF"
+                    backgroundColor={colors.primary}
+                    color={colors.text}
                 />
                 
             </View>
@@ -117,46 +124,3 @@ export default function AddProduto() {
     )
 }
 
-
-const style = StyleSheet.create({
-    cabecalho: {
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        backgroundColor: "#4543DE",
-        padding: 16,
-        width: "100%",
-        height: 180,
-        borderBottomEndRadius: 15,
-        borderBottomStartRadius: 15
-    },
-    image: {
-        height: 128,
-        width: 124
-    },
-    input: {
-        fontSize: 18,
-    },
-    inputBox: {
-        backgroundColor: "#D9D9D9",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        padding: 16,
-        borderRadius: 4,
-        width: "100%",
-    },
-    addProduct: {
-        padding: 10,
-    },
-    picker: {
-        width: "95%"
-    },
-    inputPicker: {
-        backgroundColor: "#D9D9D9",
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 16,
-        borderRadius: 4,
-        width: "100%",
-    }
-});

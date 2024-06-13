@@ -4,10 +4,14 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Logo from '../assets/logo.png';
 import CategoriasItem from '../components/CategoriaItem';
 import { api } from '../services/api';
+import createStyles from "../styles/CategoriasStyle";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function Home() {
     const navigation = useNavigation();
     const [categorias, setCategorias] = useState([]);
+    const { colors } = useThemeContext();
+    const styles = createStyles(colors);
 
     useEffect(() => {
         fetchCategories();
@@ -29,19 +33,19 @@ export default function Home() {
     }
 
     return (
-        <ScrollView>
-            <StatusBar backgroundColor="#4543DE" barStyle="light-content" />
-            <View style={style.cabecalho}>
-                <Image source={Logo} style={style.image} />
+        <ScrollView style={styles.background}>
+            <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+            <View style={styles.cabecalho}>
+                <Image source={Logo} style={styles.image} />
             </View>
-            <View style={style.addProduct}>
+            <View style={styles.addProduct}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddCategoria')}>
-                    <Text style={{ fontSize: 18, fontWeight: '600' }}>Adicionar categoria +</Text>
+                    <Text style={styles.texto}>Adicionar categoria +</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ marginHorizontal: 25, gap: 10 }}>
                 {categorias.map((categoria, index) => (
-                    <CategoriasItem data={categoria} key={index} updateCategories={() => fetchCategories()}/>
+                    <CategoriasItem data={categoria} color={colors.text} key={index} updateCategories={() => fetchCategories()}/>
                 ))}
             </View>
         </ScrollView>
@@ -50,35 +54,5 @@ export default function Home() {
 
 
 const style = StyleSheet.create({
-    cabecalho: {
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        backgroundColor: "#4543DE",
-        padding: 16,
-        width: "100%",
-        height: 180,
-        borderBottomEndRadius: 15,
-        borderBottomStartRadius: 15
-    },
-    image: {
-        height: 128,
-        width: 124
-    },
-    input: {
-        fontSize: 18,
-    },
-    inputBox: {
-        backgroundColor: "#D9D9D9",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        padding: 16,
-        borderRadius: 4,
-        width: "100%",
-    },
-    addProduct: {
-        padding: 10,
-        justifyContent: "center",
-        alignItems: "center"
-    },
+    
 });
